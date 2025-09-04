@@ -34,5 +34,11 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
-  static accessTokens = DbAccessTokensProvider.forModel(User)
+  static accessTokens = DbAccessTokensProvider.forModel(User, {
+    expiresIn : '7 days',
+    prefix :'oat_',
+    table:'auth_access_tokens',
+    type:'auth_token',
+    tokenSecretLength:40
+  })
 }
