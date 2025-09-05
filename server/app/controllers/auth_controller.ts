@@ -4,23 +4,21 @@ import type { HttpContext } from '@adonisjs/core/http'
 export default class AuthController {
   public async login({ request, auth, response }: HttpContext) {
     const email = request.input('email')
-    const pasword = request.input('password')
+    const password = request.input('password')
 
-    try {
-      const user = await User.verifyCredentials(email, pasword)
+    const user = await User.findBy('email', email)
 
-      const token = await auth.use('api').createToken(user, ['*'], {
-        expiresIn: '7d',
-      })
-
-      return response.ok({
-        message: 'Logged in successfully',
-        token,
-        user,
-      })
-    } catch {
+    if (!user || user.password != password) {
       return response.unauthorized({ message: 'Invalid email or password' })
     }
+
+    const token = await auth.use('api').createToken(user, ['*'])
+
+    return response.ok({
+      message: 'Logged In successfully',
+      token,
+      user,
+    })
   }
 
   public async logout({ auth, response }: HttpContext) {

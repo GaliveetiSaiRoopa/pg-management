@@ -1,5 +1,5 @@
 import User from '#models/user'
-import hash from '@adonisjs/core/services/hash'
+// import hash from '@adonisjs/core/services/hash'
 import { BaseSeeder } from '@adonisjs/lucid/seeders'
 
 export default class UserSeeder extends BaseSeeder {
@@ -8,7 +8,7 @@ export default class UserSeeder extends BaseSeeder {
       fullName: 'Galiveeti SaiRoopa',
       phone: '9392550157',
       email: 'sairoopa@gmail.com',
-      password: await hash.make('Admin@123'),
+      password: 'Admin@123',
       role: 'admin',
     })
   }
